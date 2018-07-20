@@ -1,0 +1,62 @@
+#!/bin/sh
+
+set -e
+
+# Configuration
+USER_NAME="helfertool"
+GROUP_NAME="helfertool"
+DOCKER_NAME="helfertool"
+DOCKER_IMAGE="helfertool/helfertool"
+DATA_DIR="/srv/helfertool"
+
+# Command: start
+if [ "$1" = "start" ] ; then
+    if ! [ -z "$(docker ps -a | grep "$DOCKER_NAME")" ] ; then
+        /usr/bin/docker stop "$DOCKER_NAME" || true
+        /usr/bin/docker rm "$DOCKER_NAME" || true
+    fi
+
+    /usr/bin/docker run --rm --name "$DOCKER_NAME" \
+        -e USERID=$(id -u "$USER_NAME") \
+        -e GROUPID=$(id -u "$GROUP_NAME") \
+        -v "$DATA_DIR/data:/data" \
+        -v "$DATA_DIR/config:/config" \
+        "$DOCKER_IMAGE"
+# Command: stop
+elif [ "$1" = "stop" ] ; then
+    /usr/bin/docker stop "$DOCKER_NAME"
+# Command: reload
+elif [ "$1" = "reload" ] ; then
+    /usr/bin/docker exec -t "$DOCKER_NAME" reload
+# Command: download
+elif [ "$1" = "download" ] ; then
+    /usr/bin/docker pull "$DOCKER_IMAGE"
+# Command: init
+elif [ "$1" = "init" ] ; then
+    /usr/bin/docker exec -t "$DOCKER_NAME" init
+# Command: createadmin
+elif [ "$1" = "createadmin" ] ; then
+    /usr/bin/docker exec -t "$DOCKER_NAME" createadmin
+# Command: manage
+elif [ "$1" = "manage" ] ; then
+    shift
+    /usr/bin/docker exec -t "$DOCKER_NAME" manage $@
+# Help
+else
+    echo "helfertoolctl"
+    echo ""
+    echo "[Service]"
+    echo "start\t\tStart docker container"
+    echo "stop\t\tStop docker container"
+    echo "reload\t\tReload application"
+    echo "download\tDownload the latest Docker image"
+    echo ""
+    echo "[Helfertool]"
+    echo "init\t\tInitialize Helfertool (only run once at the beginning!)"
+    echo "createadmin\tCreate new adminitrator account"
+    echo ""
+    echo "[Advanced]"
+    echo "manage\t\tRun Django manage.py command directly"
+
+    exit 1
+fi
