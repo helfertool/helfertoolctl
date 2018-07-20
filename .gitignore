@@ -5,3 +5,10 @@
 Session.vim
 .netrwhist
 *~
+
+# debian
+/debian/.debhelper
+/debian/files
+/debian/helfertoolctl
+/debian/helfertoolctl.debhelper.log
+/debian/helfertoolctl.substvars¬

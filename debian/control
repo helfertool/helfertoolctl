@@ -1,0 +1,10 @@
+Source: helfertoolctl
+Maintainer: Sven Hertle <sven.hertle@googlemail.com>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.0.0
+Section: utils
+
+Package: helfertoolctl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, docker.io | docker-engine
+Description: Script to install and manage Helfertool with Docker

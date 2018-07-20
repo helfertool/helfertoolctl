@@ -5,6 +5,7 @@ BINDIR = $(DESTDIR)/usr/sbin
 all:
 
 install:
+	mkdir -p $(BINDIR)
 	install --mode=755 helfertoolctl $(BINDIR)/
 
 uninstall:
