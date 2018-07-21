@@ -4,7 +4,6 @@ set -e
 
 # Configuration
 USER_NAME="helfertool"
-GROUP_NAME="helfertool"
 DOCKER_NAME="helfertool"
 DOCKER_IMAGE="helfertool/helfertool"
 DATA_DIR="/srv/helfertool"
@@ -17,8 +16,9 @@ if [ "$1" = "start" ] ; then
     fi
 
     /usr/bin/docker run --rm --name "$DOCKER_NAME" \
+        -p 8000:8000 \
         -e USERID=$(id -u "$USER_NAME") \
-        -e GROUPID=$(id -u "$GROUP_NAME") \
+        -e GROUPID=$(id -g "$USER_NAME") \
         -v "$DATA_DIR/data:/data" \
         -v "$DATA_DIR/config:/config" \
         "$DOCKER_IMAGE"
@@ -41,6 +41,10 @@ elif [ "$1" = "createadmin" ] ; then
 elif [ "$1" = "manage" ] ; then
     shift
     /usr/bin/docker exec -t "$DOCKER_NAME" manage $@
+# Command: shell
+elif [ "$1" = "shell" ] ; then
+    shift
+    /usr/bin/docker exec -it "$DOCKER_NAME" bash
 # Help
 else
     echo "helfertoolctl"
@@ -57,6 +61,7 @@ else
     echo ""
     echo "[Advanced]"
     echo "manage\t\tRun Django manage.py command directly"
+    echo "shell\t\tSpawn shell in docker container"
 
     exit 1
 fi
