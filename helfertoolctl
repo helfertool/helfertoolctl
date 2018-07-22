@@ -4,8 +4,11 @@ set -e
 
 # Configuration
 USER_NAME="helfertool"
+
 DOCKER_NAME="helfertool"
 DOCKER_IMAGE="helfertool/helfertool"
+
+CONFIG_DIR="/etc/helfertool"
 DATA_DIR="/srv/helfertool"
 
 # Command: start
@@ -19,8 +22,8 @@ if [ "$1" = "start" ] ; then
         -p 8000:8000 \
         -e USERID=$(id -u "$USER_NAME") \
         -e GROUPID=$(id -g "$USER_NAME") \
-        -v "$DATA_DIR/data:/data" \
-        -v "$DATA_DIR/config:/config" \
+        -v "$DATA_DIR:/data" \
+        -v "$CONFIG_DIR:/config" \
         "$DOCKER_IMAGE"
 # Command: stop
 elif [ "$1" = "stop" ] ; then
