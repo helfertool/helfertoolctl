@@ -30,20 +30,20 @@ elif [ "$1" = "stop" ] ; then
     /usr/bin/docker stop "$DOCKER_NAME"
 # Command: reload
 elif [ "$1" = "reload" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" reload
+    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool reload
 # Command: download
 elif [ "$1" = "download" ] ; then
     /usr/bin/docker pull "$DOCKER_IMAGE"
 # Command: init
 elif [ "$1" = "init" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" init
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool init
 # Command: createadmin
 elif [ "$1" = "createadmin" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" createadmin
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool createadmin
 # Command: manage
 elif [ "$1" = "manage" ] ; then
     shift
-    /usr/bin/docker exec -t "$DOCKER_NAME" manage $@
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage $@
 # Command: shell
 elif [ "$1" = "shell" ] ; then
     shift
