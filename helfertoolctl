@@ -19,7 +19,7 @@ if [ "$1" = "start" ] ; then
     fi
 
     /usr/bin/docker run --rm --name "$DOCKER_NAME" \
-        -p 8000:8000 \
+        -p 127.0.0.1:8000:8000 \
         -e USERID=$(id -u "$USER_NAME") \
         -e GROUPID=$(id -g "$USER_NAME") \
         -v "$DATA_DIR:/data" \
