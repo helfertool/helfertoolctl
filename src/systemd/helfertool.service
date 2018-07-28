@@ -1,0 +1,13 @@
+[Unit]
+Description=Helfertool
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/sbin/helfertoolctl start
+ExecStop=/usr/sbin/helfertoolctl stop
+ExecReload=/usr/sbin/helfertoolctl reload
+
+[Install]
+WantedBy=multi-user.target
