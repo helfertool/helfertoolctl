@@ -4,7 +4,7 @@ set -e
 
 # base directory
 basedir="$(dirname "$(dirname "$(readlink -f "$0")")")"
-cd "$basedir"
+cd "$basedir/src"
 
 # debian
 if [ "$1" == "debian" ] ; then
