@@ -1,4 +1,2 @@
-* create user and data directory
 * nginx/apache config with unavailable.html for 502 and 503
 * RPM package
-* install message that explains how helfertoolctl works and how to setup helfertool
