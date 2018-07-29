@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+if [ "$1" = configure ]; then
+    lastversion="$2";
+
+    getent group helfertool >/dev/null 2>&1 || addgroup --system helfertool
+    getent passwd helfertool >/dev/null 2>&1 || adduser --system \
+        --home /srv/helfertool \
+        --disabled-password \
+        --ingroup helfertool helfertool
+
+    if [ -z "$lastversion" ] ; then
+        chown root:helfertool /etc/helfertool/helfertool.yaml
+        chmod 0640 /etc/helfertool/helfertool.yaml
+
+        chmod 0770 /srv/helfertool
+    fi
+fi
+
+#DEBHELPER#
