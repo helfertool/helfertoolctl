@@ -124,6 +124,11 @@ security:
     #    - "app.helfertool.org"
     #    - "www.app.helfertool.org"
 
+    # Application is behind additional/second proxy. In this case, the HTTP
+    # header X-Forwarded-Host is used. Example: Apache > nginx > uwsgi
+    # DO NOT CHANGE when using docker container / helfertoolctl
+    behind_proxy: True
+
     # Account lockout
     lockout:
         # Number of failed login attempts until lockout
@@ -168,6 +173,6 @@ bagdes:
     rm_delay: 2
 
 # Location of uploaded files and static files.
-# Do not change when using docker container / helfertoolctl
+# DO NOT CHANGE when using docker container / helfertoolctl
 files:
     media: "/data/media"

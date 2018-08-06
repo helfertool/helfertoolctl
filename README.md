@@ -5,6 +5,27 @@ Some files are usually managed in the helfertool repository, but also part of th
 * src/config/helfertool.yaml (slightly modified for Docker)
 * src/share/unavailable.html
 
+# Release new version
+
+Bump version, run in `src`:
+
+```
+dch -i
+```
+
+Then build the Debian packages:
+
+```
+./scripts/build.sh debian
+```
+
+Add packages to Debian repo with reprepro:
+
+```
+reprepro includedeb stretch ~/helfertoolctl_X.Y.Z_amd64.deb
+reprepro includedsc stretch ~/helfertoolctl_X.Y.Z.dsc
+```
+
 # LICENSE
 
 Copyright (C) 2018  Sven Hertle
