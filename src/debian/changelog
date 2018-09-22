@@ -1,3 +1,9 @@
+helfertoolctl (0.1.5) unstable; urgency=medium
+
+  * Cleanup docker images
+
+ -- Sven Hertle <sven.hertle@googlemail.com>  Sat, 22 Sep 2018 16:10:46 +0200
+
 helfertoolctl (0.1.4) unstable; urgency=medium
 
   * Fixed typo in configuration file
