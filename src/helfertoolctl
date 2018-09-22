@@ -34,7 +34,11 @@ elif [ "$1" = "reload" ] ; then
 # Command: download
 elif [ "$1" = "download" ] ; then
     /usr/bin/docker pull "$DOCKER_IMAGE"
-    /usr/bin/docker image rm $(docker images --filter "dangling=true" helfertool/helfertool --quiet)
+
+    old_images="$(docker images --filter "dangling=true" "$DOCKER_IMAGE" --quiet)"
+    if [ "$old_images" != "" ] ; then
+        /usr/bin/docker image rm $old_images
+    fi
 # Command: init
 elif [ "$1" = "init" ] ; then
     /usr/bin/docker exec -it "$DOCKER_NAME" helfertool init
