@@ -1,3 +1,9 @@
+helfertoolctl (0.1.6) unstable; urgency=medium
+
+  * Added config option for tmp files
+
+ -- Sven Hertle <sven.hertle@googlemail.com>  Sat, 22 Sep 2018 19:23:45 +0200
+
 helfertoolctl (0.1.5) unstable; urgency=medium
 
   * Cleanup docker images
