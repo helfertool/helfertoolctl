@@ -20,7 +20,7 @@ if [ "$1" = configure ]; then
         chmod 0770 /srv/helfertool
     fi
 
-    if dpkg --compare-versions "$lastversion" "lt" "0.1.7" then
+    if dpkg --compare-versions "$lastversion" "lt" "0.1.7" ; then
         chown root:helfertool /var/log/helfertool
         chmod 0770 /var/log/helfertool
     fi
