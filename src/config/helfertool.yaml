@@ -111,6 +111,10 @@ logging:
     mails:
         - root@localhost
 
+    # DO NOT CHANGE when using docker container / helfertoolctl
+    syslog:
+        port: 5140
+
 # Security settings
 security:
     # Do not activate debugging in productive environments!

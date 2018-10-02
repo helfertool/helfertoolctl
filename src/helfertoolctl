@@ -10,6 +10,7 @@ DOCKER_IMAGE="helfertool/helfertool"
 
 CONFIG_DIR="/etc/helfertool"
 DATA_DIR="/srv/helfertool"
+LOG_DIR="/var/log/helfertool"
 
 # Command: start
 if [ "$1" = "start" ] ; then
@@ -24,13 +25,21 @@ if [ "$1" = "start" ] ; then
         -e GROUPID=$(id -g "$USER_NAME") \
         -v "$DATA_DIR:/data" \
         -v "$CONFIG_DIR:/config" \
+        -v "$LOG_DIR:/log" \
         "$DOCKER_IMAGE"
+
 # Command: stop
 elif [ "$1" = "stop" ] ; then
     /usr/bin/docker stop "$DOCKER_NAME"
+
 # Command: reload
 elif [ "$1" = "reload" ] ; then
     /usr/bin/docker exec -t "$DOCKER_NAME" helfertool reload
+
+# Command: postrotate
+elif [ "$1" = "postrotate" ] ; then
+    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool postrotate
+
 # Command: download
 elif [ "$1" = "download" ] ; then
     /usr/bin/docker pull "$DOCKER_IMAGE"
@@ -39,20 +48,25 @@ elif [ "$1" = "download" ] ; then
     if [ "$old_images" != "" ] ; then
         /usr/bin/docker image rm $old_images
     fi
+
 # Command: init
 elif [ "$1" = "init" ] ; then
     /usr/bin/docker exec -it "$DOCKER_NAME" helfertool init
+
 # Command: createadmin
 elif [ "$1" = "createadmin" ] ; then
     /usr/bin/docker exec -it "$DOCKER_NAME" helfertool createadmin
+
 # Command: manage
 elif [ "$1" = "manage" ] ; then
     shift
     /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage $@
+
 # Command: shell
 elif [ "$1" = "shell" ] ; then
     shift
     /usr/bin/docker exec -it "$DOCKER_NAME" bash
+
 # Help
 else
     echo "helfertoolctl"
@@ -61,6 +75,7 @@ else
     echo "start\t\tStart docker container"
     echo "stop\t\tStop docker container"
     echo "reload\t\tReload application"
+    echo "postrotate\tCall after logs were rotated"
     echo "download\tDownload the latest Docker image"
     echo ""
     echo "[Helfertool]"

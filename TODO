@@ -1,3 +1,4 @@
 * nginx/apache config with unavailable.html for 502 and 503
+* fix cleanup of old images
+* logrotate
 * RPM package
-* cleanup of old images
