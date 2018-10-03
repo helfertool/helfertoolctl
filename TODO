@@ -1,4 +1,5 @@
 * nginx/apache config with unavailable.html for 502 and 503
 * fix cleanup of old images
 * logrotate
+* do not start service on installation
 * RPM package
