@@ -59,7 +59,7 @@ elif [ "$1" = "createadmin" ] ; then
 
 # Command: open
 elif [ "$1" = "open" ] ; then
-    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage open $2
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage openregistration $2
 
 # Command: close
 elif [ "$1" = "close" ] ; then
