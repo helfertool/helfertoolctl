@@ -21,7 +21,7 @@ database:
     #name: "helfertool"
     #user: "helfertool"
     #password: "<PASSWORD>"
-    #host: 127.0.0.1
+    #host: 172.17.0.1
     #port: 3306
 
     # PostgreSQL
@@ -29,7 +29,7 @@ database:
     #name: "helfertool"
     #user: "helfertool"
     #password: "<PASSWORD>"
-    #host: 127.0.0.1
+    #host: 172.17.0.1
     #port: 5432
 
     # Additional options like an init_command
@@ -47,7 +47,7 @@ rabbitmq:
     password: "guest"
 
     # Hostname and port
-    host: 127.0.0.1
+    host: 172.17.0.1
     port: 5672
 
 # Mail server and settings
@@ -118,10 +118,10 @@ logging:
 # Security settings
 security:
     # Do not activate debugging in productive environments!
-    debug: true
+    debug: false
 
     # Unique and secret key
-    secret: "foobar"
+    secret: "change_this_for_production"
 
     # URLs that are used for the software
     allowed_hosts:

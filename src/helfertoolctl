@@ -57,6 +57,18 @@ elif [ "$1" = "init" ] ; then
 elif [ "$1" = "createadmin" ] ; then
     /usr/bin/docker exec -it "$DOCKER_NAME" helfertool createadmin
 
+# Command: open
+elif [ "$1" = "open" ] ; then
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage open $2
+
+# Command: close
+elif [ "$1" = "close" ] ; then
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage closeregistration $2
+
+# Command: statistics
+elif [ "$1" = "statistics" ] ; then
+    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage helfertoolstats
+
 # Command: manage
 elif [ "$1" = "manage" ] ; then
     shift
@@ -81,6 +93,9 @@ else
     echo "[Helfertool]"
     echo "init\t\tInitialize Helfertool (only run once at the beginning!)"
     echo "createadmin\tCreate new adminitrator account"
+    echo "open\t\tOpen registration for event (parameter: URL name)"
+    echo "close\t\tClose registration for event (parameter: URL name)"
+    echo "statistcs\tPrint some numbers"
     echo ""
     echo "[Advanced]"
     echo "manage\t\tRun Django manage.py command directly"

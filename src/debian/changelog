@@ -1,8 +1,10 @@
-helfertoolctl (0.1.7) UNRELEASED; urgency=medium
+helfertoolctl (0.1.8) unstable; urgency=medium
 
   * Add log directory
+  * Add open, close and statistics command
+  * Updated configuration file
 
- -- Sven Hertle <sven.hertle@googlemail.com>  Tue, 02 Oct 2018 22:36:36 +0200
+ -- Sven Hertle <sven.hertle@googlemail.com>  Wed, 03 Oct 2018 18:23:03 +0200
 
 helfertoolctl (0.1.6) unstable; urgency=medium
 
