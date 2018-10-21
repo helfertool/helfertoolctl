@@ -1,3 +1,9 @@
+helfertoolctl (0.1.10) unstable; urgency=medium
+
+  * open, close and statistics are non-interactive now
+
+ -- Sven Hertle <sven.hertle@googlemail.com>  Sun, 21 Oct 2018 21:29:23 +0200
+
 helfertoolctl (0.1.9) unstable; urgency=medium
 
   * fixed bug in open command
