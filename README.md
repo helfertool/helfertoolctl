@@ -29,7 +29,7 @@ reprepro includedsc unstable ~/helfertoolctl_X.Y.Z.dsc
 After testing, move to stretch repository:
 
 ```
-reprepro copy unstable stretch helfertoolctl
+reprepro copy stretch unstable helfertoolctl
 ```
 
 # LICENSE
