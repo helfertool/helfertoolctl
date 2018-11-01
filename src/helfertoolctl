@@ -2,82 +2,166 @@
 
 set -e
 
-# Configuration
-USER_NAME="helfertool"
+#
+# CONFIG
+#
 
-DOCKER_NAME="helfertool"
-DOCKER_IMAGE="helfertool/helfertool"
+# Try to load additional environment variables
+# The default path is /etc/default/helfertool and can be overwritten with
+# HELFERTOOLCTL_ENV.
+# Alternatively, the other environment variables can also be set directly.
+test "$HELFERTOOLCTL_ENV" || HELFERTOOLCTL_ENV="/etc/default/helfertool"
 
-CONFIG_DIR="/etc/helfertool"
-DATA_DIR="/srv/helfertool"
-LOG_DIR="/var/log/helfertool"
+if [ -n "$HELFERTOOLCTL_ENV" ] ; then
+    if [ -f "$HELFERTOOLCTL_ENV" ] ; then
+        . "$HELFERTOOLCTL_ENV"
+    else
+        echo "Warning: cannot read configuration file \"$HELFERTOOLCTL_ENV\""
+    fi
+fi
+
+# Now the default configuration is set, unless the variable is already set.
+# The variables can be set directly as environment variables or in the
+# file specified as HELFERTOOLCTL_ENV
+
+# The user and group that will be used to run the container
+test "$HELFERTOOL_USER" || HELFERTOOL_USER="helfertool"
+test "$HELFERTOOL_GROUP" || HELFERTOOL_GROUP="helfertool"
+
+# Name of the docker image from the docker hub
+test "$HELFERTOOL_DOCKER_IMAGE" || HELFERTOOL_DOCKER_IMAGE="helfertool/helfertool"
+
+# Name of the docker container that is started
+test "$HELFERTOOL_DOCKER_NAME" || HELFERTOOL_DOCKER_NAME="helfertool"
+
+# Path of config, data and log files
+test "$HELFERTOOL_CONFIG_DIR" || HELFERTOOL_CONFIG_DIR="/etc/helfertool"
+test "$HELFERTOOL_DATA_DIR" || HELFERTOOL_DATA_DIR="/srv/helfertool"
+test "$HELFERTOOL_LOG_DIR" || HELFERTOOL_LOG_DIR="/var/log/helfertool"
+
+# Listen address and port
+test "$HELFERTOOL_ADDRESS" || HELFERTOOL_ADDRESS="127.0.0.1"
+test "$HELFERTOOL_PORT" || HELFERTOOL_PORT="8000"
+
+# Disable most of the commands, except download
+test "$HELFERTOOL_DISABLE" || HELFERTOOL_DISABLE="0"
+
+#
+# FUNCTIONS
+#
+
+check_disabled()
+{
+    if [ "$HELFERTOOL_DISABLE" = "1" ] ; then
+        echo "This command was disabled by HELFERTOOL_DISABLE"
+        exit
+    fi
+}
+
+docker_exec()
+{
+    /usr/bin/docker exec -t "$HELFERTOOL_DOCKER_NAME" $@
+}
+
+docker_exec_interactive()
+{
+    /usr/bin/docker exec -it "$HELFERTOOL_DOCKER_NAME" $@
+}
+
+#
+# MAIN
+#
 
 # Command: start
 if [ "$1" = "start" ] ; then
-    if ! [ -z "$(docker ps -a | grep "$DOCKER_NAME")" ] ; then
-        /usr/bin/docker stop "$DOCKER_NAME" || true
-        /usr/bin/docker rm "$DOCKER_NAME" || true
+    check_disabled
+
+    # check if container is currently running and stop it
+    if ! [ -z "$(docker ps -a --format "{{.Names}}" | grep "^$HELFERTOOL_DOCKER_NAME$")" ] ; then
+        /usr/bin/docker stop "$HELFERTOOL_DOCKER_NAME" || true
+        /usr/bin/docker rm "$HELFERTOOL_DOCKER_NAME" || true
     fi
 
-    /usr/bin/docker run --rm --name "$DOCKER_NAME" \
-        -p 127.0.0.1:8000:8000 \
-        -e USERID=$(id -u "$USER_NAME") \
-        -e GROUPID=$(id -g "$USER_NAME") \
-        -v "$DATA_DIR:/data" \
-        -v "$CONFIG_DIR:/config" \
-        -v "$LOG_DIR:/log" \
-        "$DOCKER_IMAGE"
+    # start the new container
+    /usr/bin/docker run --rm --name "$HELFERTOOL_DOCKER_NAME" \
+        -p "$HELFERTOOL_ADDRESS:$HELFERTOOL_PORT:8000" \
+        -e USERID=$(id -u "$HELFERTOOL_USER") \
+        -e GROUPID=$(id -g "$HELFERTOOL_GROUP") \
+        -v "$HELFERTOOL_DATA_DIR:/data" \
+        -v "$HELFERTOOL_CONFIG_DIR:/config" \
+        -v "$HELFERTOOL_LOG_DIR:/log" \
+        "$HELFERTOOL_DOCKER_IMAGE"
 
 # Command: stop
 elif [ "$1" = "stop" ] ; then
-    /usr/bin/docker stop "$DOCKER_NAME"
+    check_disabled
+
+    /usr/bin/docker stop "$HELFERTOOL_DOCKER_NAME"
 
 # Command: reload
 elif [ "$1" = "reload" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool reload
+    check_disabled
+
+    docker_exec helfertool reload
 
 # Command: postrotate
 elif [ "$1" = "postrotate" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool postrotate
+    check_disabled
+
+    docker_exec helfertool postrotate
 
 # Command: download
 elif [ "$1" = "download" ] ; then
-    /usr/bin/docker pull "$DOCKER_IMAGE"
+    /usr/bin/docker pull "$HELFERTOOL_DOCKER_IMAGE"
 
-    old_images="$(docker images --filter "dangling=true" "$DOCKER_IMAGE" --quiet)"
+    old_images="$(docker images --filter "dangling=true" "$HELFERTOOL_DOCKER_IMAGE" --quiet)"
     if [ "$old_images" != "" ] ; then
         /usr/bin/docker image rm $old_images
     fi
 
 # Command: init
 elif [ "$1" = "init" ] ; then
-    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool init
+    check_disabled
+
+    docker_exec helfertool init
 
 # Command: createadmin
 elif [ "$1" = "createadmin" ] ; then
-    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool createadmin
+    check_disabled
+
+    docker_exec_interactive helfertool createadmin
 
 # Command: open
 elif [ "$1" = "open" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool manage openregistration $2
+    check_disabled
+
+    docker_exec helfertool manage openregistration $2
 
 # Command: close
 elif [ "$1" = "close" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool manage closeregistration $2
+    check_disabled
+
+    docker_exec helfertool manage closeregistration $2
 
 # Command: statistics
 elif [ "$1" = "statistics" ] ; then
-    /usr/bin/docker exec -t "$DOCKER_NAME" helfertool manage helfertoolstats
+    check_disabled
+
+    docker_exec helfertool manage helfertoolstats
 
 # Command: manage
 elif [ "$1" = "manage" ] ; then
+    check_disabled
+
     shift
-    /usr/bin/docker exec -it "$DOCKER_NAME" helfertool manage $@
+    docker_exec_interactive helfertool manage $@
 
 # Command: shell
 elif [ "$1" = "shell" ] ; then
+    check_disabled
+
     shift
-    /usr/bin/docker exec -it "$DOCKER_NAME" bash
+    docker_exec_interactive bash
 
 # Help
 else
@@ -95,7 +179,7 @@ else
     echo "createadmin\tCreate new adminitrator account"
     echo "open\t\tOpen registration for event (parameter: URL name)"
     echo "close\t\tClose registration for event (parameter: URL name)"
-    echo "statistcs\tPrint some numbers"
+    echo "statistics\tPrint some numbers"
     echo ""
     echo "[Advanced]"
     echo "manage\t\tRun Django manage.py command directly"

@@ -1,5 +1,5 @@
 Source: helfertoolctl
-Maintainer: Sven Hertle <sven.hertle@googlemail.com>
+Maintainer: Sven Hertle <hertle@narfi.net>
 Build-Depends: debhelper (>= 10)
 Standards-Version: 4.2.1
 Section: utils

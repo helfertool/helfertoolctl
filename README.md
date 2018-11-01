@@ -22,8 +22,14 @@ Then build the Debian packages:
 Add packages to Debian repo with reprepro:
 
 ```
-reprepro includedeb stretch ~/helfertoolctl_X.Y.Z_amd64.deb
-reprepro includedsc stretch ~/helfertoolctl_X.Y.Z.dsc
+reprepro includedeb unstable ~/helfertoolctl_X.Y.Z_amd64.deb
+reprepro includedsc unstable ~/helfertoolctl_X.Y.Z.dsc
+```
+
+After testing, move to stretch repository:
+
+```
+reprepro copy unstable stretch helfertoolctl
 ```
 
 # LICENSE

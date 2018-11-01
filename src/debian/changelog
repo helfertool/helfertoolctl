@@ -1,3 +1,10 @@
+helfertoolctl (0.1.15) unstable; urgency=medium
+
+  * read configuration from /etc/default/helfertool
+  * fixed bug in rules
+
+ -- Sven Hertle <hertle@narfi.net>  Thu, 01 Nov 2018 13:45:19 +0100
+
 helfertoolctl (0.1.14) unstable; urgency=medium
 
   * fixed bug in rules

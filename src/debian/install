@@ -1,1 +1,2 @@
-config/helfertool.yaml /etc/helfertool/
+config/helfertool.yaml  /etc/helfertool/
+config/helfertool       /etc/default/
