@@ -1,8 +1,8 @@
-helfertoolctl (0.1.12) unstable; urgency=medium
+helfertoolctl (0.1.14) unstable; urgency=medium
 
-  * do not restart service on upgrade
+  * fixed bug in rules
 
- -- Sven Hertle <sven.hertle@googlemail.com>  Thu, 01 Nov 2018 12:00:15 +0100
+ -- Sven Hertle <sven.hertle@googlemail.com>  Thu, 01 Nov 2018 12:10:29 +0100
 
 helfertoolctl (0.1.11) unstable; urgency=medium
 
