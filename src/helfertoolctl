@@ -43,18 +43,16 @@ test "$HELFERTOOL_LOG_DIR" || HELFERTOOL_LOG_DIR="/var/log/helfertool"
 test "$HELFERTOOL_ADDRESS" || HELFERTOOL_ADDRESS="127.0.0.1"
 test "$HELFERTOOL_PORT" || HELFERTOOL_PORT="8000"
 
-# Disable most of the commands, except download
-test "$HELFERTOOL_DISABLE" || HELFERTOOL_DISABLE="0"
-
 #
 # FUNCTIONS
 #
 
-check_disabled()
+docker_is_running()
 {
-    if [ "$HELFERTOOL_DISABLE" = "1" ] ; then
-        echo "This command was disabled by HELFERTOOL_DISABLE"
-        exit
+    if [ -z "$(docker ps -a --format "{{.Names}}" | grep "^$HELFERTOOL_DOCKER_NAME$")" ] ; then
+        return 1  # false, not running
+    else
+        return 0  # true, running
     fi
 }
 
@@ -74,10 +72,8 @@ docker_exec_interactive()
 
 # Command: start
 if [ "$1" = "start" ] ; then
-    check_disabled
-
     # check if container is currently running and stop it
-    if ! [ -z "$(docker ps -a --format "{{.Names}}" | grep "^$HELFERTOOL_DOCKER_NAME$")" ] ; then
+    if docker_is_running ; then
         /usr/bin/docker stop "$HELFERTOOL_DOCKER_NAME" || true
         /usr/bin/docker rm "$HELFERTOOL_DOCKER_NAME" || true
     fi
@@ -94,72 +90,77 @@ if [ "$1" = "start" ] ; then
 
 # Command: stop
 elif [ "$1" = "stop" ] ; then
-    check_disabled
-
     /usr/bin/docker stop "$HELFERTOOL_DOCKER_NAME"
 
 # Command: reload
 elif [ "$1" = "reload" ] ; then
-    check_disabled
-
     docker_exec helfertool reload
-
-# Command: postrotate
-elif [ "$1" = "postrotate" ] ; then
-    check_disabled
-
-    docker_exec helfertool postrotate
 
 # Command: download
 elif [ "$1" = "download" ] ; then
-    /usr/bin/docker pull "$HELFERTOOL_DOCKER_IMAGE"
-
+    echo "Cleanup..."
     old_images="$(docker images --filter "dangling=true" "$HELFERTOOL_DOCKER_IMAGE" --quiet)"
     if [ "$old_images" != "" ] ; then
-        /usr/bin/docker image rm $old_images
+        /usr/bin/docker image rm $old_images > /dev/null || true  # ignore errors
     fi
+
+    echo "Getting new image..."
+    /usr/bin/docker pull "$HELFERTOOL_DOCKER_IMAGE" | grep --color=never "^Status:"
+
+# Command: needsrestart
+elif [ "$1" = "needsrestart" ] ; then
+    if docker_is_running ; then
+        # currently used image id
+        image_running="$(/usr/bin/docker inspect --format="{{.Image}}" "$HELFERTOOL_DOCKER_NAME")"
+
+        # get latest image id
+        # needs to look for helfertool/helfetool:latest instead of helfertool/helfertool, otherwise
+        # all other tags are also listed
+        if [ -z "$(echo "$HELFERTOOL_DOCKER_IMAGE" | grep ":")" ] ; then
+            image="$HELFERTOOL_DOCKER_IMAGE:latest"
+        else
+            image="$HELFERTOOL_DOCKER_IMAGE"
+        fi
+
+        image_current="$(docker images --no-trunc --format="{{.ID}}" "$image")"
+
+        # check
+        if [ "$image_running" != "$image_current" ] ; then
+            echo "Restart needed"
+        fi
+    fi
+
+# Command: postrotate
+elif [ "$1" = "postrotate" ] ; then
+    docker_exec helfertool postrotate
 
 # Command: init
 elif [ "$1" = "init" ] ; then
-    check_disabled
-
     docker_exec helfertool init
 
 # Command: createadmin
 elif [ "$1" = "createadmin" ] ; then
-    check_disabled
-
     docker_exec_interactive helfertool createadmin
 
 # Command: open
 elif [ "$1" = "open" ] ; then
-    check_disabled
-
     docker_exec helfertool manage openregistration $2
 
 # Command: close
 elif [ "$1" = "close" ] ; then
-    check_disabled
-
     docker_exec helfertool manage closeregistration $2
 
 # Command: statistics
 elif [ "$1" = "statistics" ] ; then
-    check_disabled
-
     docker_exec helfertool manage helfertoolstats
 
 # Command: manage
 elif [ "$1" = "manage" ] ; then
-    check_disabled
-
     shift
     docker_exec_interactive helfertool manage $@
 
 # Command: shell
 elif [ "$1" = "shell" ] ; then
-    check_disabled
-
     shift
     docker_exec_interactive bash
 
@@ -171,8 +172,10 @@ else
     echo "start\t\tStart docker container"
     echo "stop\t\tStop docker container"
     echo "reload\t\tReload application"
-    echo "postrotate\tCall after logs were rotated"
     echo "download\tDownload the latest Docker image"
+    echo ""
+    echo "needsrestart\tCheck if a newer container is available locally (after download)"
+    echo "postrotate\tCall after logs were rotated"
     echo ""
     echo "[Helfertool]"
     echo "init\t\tInitialize Helfertool (only run once at the beginning!)"
