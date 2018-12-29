@@ -1,0 +1,22 @@
+#
+# helfertoolctl configuration
+#
+
+# The user and group that will be used to run the container
+#HELFERTOOL_USER="helfertool"
+#HELFERTOOL_GROUP="helfertool"
+
+# Name of the docker image from the docker hub
+#HELFERTOOL_DOCKER_IMAGE="helfertool/helfertool"
+
+# Name of the docker container that is started
+#HELFERTOOL_DOCKER_NAME="helfertool"
+
+# Path of config, data and log files
+#HELFERTOOL_CONFIG_DIR="/etc/helfertool"
+#HELFERTOOL_DATA_DIR="/srv/helfertool"
+#HELFERTOOL_LOG_DIR="/var/log/helfertool"
+
+# Listen address and port
+#HELFERTOOL_ADDRESS="127.0.0.1"
+#HELFERTOOL_PORT="8000"
