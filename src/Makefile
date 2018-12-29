@@ -4,7 +4,7 @@ all:
 
 install:
 	mkdir -p $(DESTDIR)/usr/sbin
-	install --mode=755 helfertoolctl $(DESTDIR)/usr/sbin
+	install --mode=755 bin/helfertoolctl $(DESTDIR)/usr/sbin
 
 	mkdir -p $(DESTDIR)/lib/systemd/system
 	install --mode=644 systemd/helfertool.service $(DESTDIR)/lib/systemd/system
