@@ -1,3 +1,9 @@
+# Dependencies for build
+
+To build the packages on Debian, the following packages need to be installed:
+
+ * devscripts
+
 # Shared files with helfertool repository
 
 Some files are usually managed in the helfertool repository, but also part of this repo:
