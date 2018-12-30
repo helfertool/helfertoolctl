@@ -19,8 +19,12 @@ elif [ "$1" == "centos" ] ; then
     rpmbuild -ba helfertoolctl.spec
 
     # get rpm and cleanup
-    cp "$HOME/rpmbuild/RPMS/x86_64/"helfertoolctl-*.rpm ..
+    rpmfile="$(ls "$HOME/rpmbuild/RPMS/x86_64/")"
+    cp "$HOME/rpmbuild/RPMS/x86_64/$rpmfile" ..
     rm -rf "$HOME/rpmbuild/"
+
+    # sign file
+    rpm --addsign "../$rpmfile"
 else
     echo "Commands: debian, centos"
     exit 1

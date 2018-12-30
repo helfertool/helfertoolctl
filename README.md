@@ -13,13 +13,19 @@ Some files are usually managed in the helfertool repository, but also part of th
 
 # Release new version
 
+## Bump version
+
 Bump version, run in `src`:
 
 ```
 dch -i
 ```
 
-Then build the Debian packages:
+The version is also used for the CentOS package.
+
+## Debian
+
+Build the Debian packages:
 
 ```
 ./scripts/build.sh debian
@@ -37,6 +43,23 @@ After testing, move to stretch repository:
 ```
 reprepro copy stretch unstable helfertoolctl
 ```
+
+## CentOS
+
+Build the CentOS packages:
+
+```
+./scripts/build.sh centos
+```
+
+Copy packages to `centos/7/x86_64/testing` directory, remove old version and run:
+
+```
+createrepo
+gpg --detach-sign --armor repodata/repomd.xml
+```
+
+After testing, copy package from `testing` to `stable` and run commands again.
 
 # LICENSE
 
