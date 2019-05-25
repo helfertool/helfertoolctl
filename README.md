@@ -55,7 +55,7 @@ Build the CentOS packages:
 Copy packages to `centos/7/x86_64/testing` directory, remove old version and run:
 
 ```
-createrepo
+createrepo .
 gpg --detach-sign --armor repodata/repomd.xml
 ```
 
