@@ -1,3 +1,9 @@
+helfertoolctl (0.1.20) unstable; urgency=medium
+
+  * Add disableaccounts command
+
+ -- Sven Hertle <hertle@narfi.net>  Sun, 27 Oct 2019 18:12:25 +0100
+
 helfertoolctl (0.1.19) unstable; urgency=medium
 
   * Added logrotate config
