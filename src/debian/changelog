@@ -1,3 +1,9 @@
+helfertoolctl (0.1.18) unstable; urgency=medium
+
+  * Use "docker" config options
+
+ -- Sven Hertle <hertle@narfi.net>  Thu, 30 May 2019 17:00:55 +0200
+
 helfertoolctl (0.1.17) unstable; urgency=medium
 
   * Include password_length parameter in config
