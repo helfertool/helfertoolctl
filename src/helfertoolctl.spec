@@ -23,12 +23,13 @@ make DESTDIR="$RPM_BUILD_ROOT" install
 
 mkdir -p "$RPM_BUILD_ROOT/etc/helfertool/" \
     "$RPM_BUILD_ROOT/etc/default/" \
+    "$RPM_BUILD_ROOT/etc/logrotate.d/" \
     "$RPM_BUILD_ROOT/srv/helfertool" \
     "$RPM_BUILD_ROOT/var/log/helfertool"
 
 cp "$RPM_BUILD_DIR/helfertoolctl/config/helfertool.yaml" "$RPM_BUILD_ROOT/etc/helfertool/"
 cp "$RPM_BUILD_DIR/helfertoolctl/config/helfertool" "$RPM_BUILD_ROOT/etc/default/"
-
+cp "$RPM_BUILD_DIR/helfertoolctl/logrotate/helfertool" "$RPM_BUILD_ROOT/etc/logrotate.d/"
 
 %files
 /usr/sbin/helfertoolctl
@@ -37,6 +38,7 @@ cp "$RPM_BUILD_DIR/helfertoolctl/config/helfertool" "$RPM_BUILD_ROOT/etc/default
 
 %config(noreplace) %attr(0640, root, helfertool) /etc/helfertool/helfertool.yaml
 %config(noreplace) /etc/default/helfertool
+%config(noreplace) /etc/logrotate.d/helfertool
 
 %attr(0770, root, helfertool) /var/log/helfertool
 %attr(0770, root, helfertool) /srv/helfertool

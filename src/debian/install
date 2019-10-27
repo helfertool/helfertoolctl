@@ -1,2 +1,3 @@
 helfertoolctl/config/helfertool.yaml  /etc/helfertool/
 helfertoolctl/config/helfertool       /etc/default/
+helfertoolctl/logrotate/helfertool    /etc/logrotate.d

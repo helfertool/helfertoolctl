@@ -1,3 +1,9 @@
+helfertoolctl (0.1.19) unstable; urgency=medium
+
+  * Added logrotate config
+
+ -- Sven Hertle <hertle@narfi.net>  Sun, 27 Oct 2019 14:28:46 +0100
+
 helfertoolctl (0.1.18) unstable; urgency=medium
 
   * Use "docker" config options

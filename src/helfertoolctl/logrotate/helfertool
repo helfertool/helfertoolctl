@@ -1,0 +1,13 @@
+/var/log/helfertool/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    sharedscripts
+    postrotate
+        helfertoolctl postrotate
+    endscript
+    su root root
+}
