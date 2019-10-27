@@ -62,9 +62,16 @@ gpg --detach-sign --armor repodata/repomd.xml
 
 After testing, copy package from `testing` to `stable` and run commands again.
 
+## Git tag
+
+Add a git tag for the released version:
+
+    git tag -a v0.1.19 -m "version 0.1.19"
+    git push origin --tags
+
 # LICENSE
 
-Copyright (C) 2018  Sven Hertle
+Copyright (C) 2019  Sven Hertle
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
