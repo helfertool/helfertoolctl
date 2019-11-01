@@ -1,3 +1,9 @@
+helfertoolctl (0.2.1) unstable; urgency=medium
+
+  * updated config
+
+ -- Sven Hertle <hertle@narfi.net>  Fri, 01 Nov 2019 22:22:44 +0100
+
 helfertoolctl (0.2) unstable; urgency=medium
 
   * Updated configuration: new mail config with separated STMP and IMAP
