@@ -1,3 +1,11 @@
+helfertoolctl (0.3.0) unstable; urgency=medium
+
+  * Added new config option: announcement
+  * Added configuration for OpenID Connect
+  * New unavailable.html page
+
+ -- Sven Hertle <hertle@narfi.net>  Fri, 06 Mar 2020 21:06:17 +0100
+
 helfertoolctl (0.2.1) unstable; urgency=medium
 
   * updated config
