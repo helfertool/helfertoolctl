@@ -99,7 +99,8 @@ elif [ "$1" = "reload" ] ; then
 # Command: download
 elif [ "$1" = "download" ] ; then
     echo "Cleanup..."
-    old_images="$(docker images --filter "dangling=true" "$HELFERTOOL_DOCKER_IMAGE" --quiet)"
+    docker_image="$(echo "$HELFERTOOL_DOCKER_IMAGE" | sed 's/:[^:]*$//g')"
+    old_images="$(docker images --filter "dangling=true" "$docker_image" --quiet)"
     if [ "$old_images" != "" ] ; then
         /usr/bin/docker image rm $old_images > /dev/null || true  # ignore errors
     fi

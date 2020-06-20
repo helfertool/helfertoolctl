@@ -1,3 +1,10 @@
+helfertoolctl (0.4.0) unstable; urgency=medium
+
+  * Updated config for Helfertool release 1.1
+  * Fix bug: remove old images also if tag is given in HELFERTOOL_DOCKER_IMAGE
+
+ -- Sven Hertle <hertle@narfi.net>  Sat, 20 Jun 2020 22:33:30 +0200
+
 helfertoolctl (0.3.0) unstable; urgency=medium
 
   * Added new config option: announcement

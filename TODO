@@ -1,4 +1,3 @@
 * RPM: /usr/share/doc
 * bumpversion script
 * nginx/apache config with unavailable.html for 502 and 503
-* logrotate
