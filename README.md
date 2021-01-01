@@ -71,7 +71,7 @@ Add a git tag for the released version:
 
 # LICENSE
 
-Copyright (C) 2019  Sven Hertle
+Copyright (C) 2018-2021  Sven Hertle and contributors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
