@@ -158,6 +158,11 @@ elif [ "$1" = "disableaccounts" ] ; then
     shift
     docker_exec helfertool manage disableaccounts $@
 
+# Command: exampledata
+elif [ "$1" = "exampledata" ] ; then
+    shift
+    docker_exec helfertool manage exampledata $@
+
 # Command: statistics
 elif [ "$1" = "statistics" ] ; then
     docker_exec helfertool manage helfertoolstats
@@ -191,6 +196,7 @@ else
     echo "open\t\tOpen registration for event (parameter: URL name)"
     echo "close\t\tClose registration for event (parameter: URL name)"
     echo "disableaccounts\tDisabled accounts which are inactive since the specified time (parameters: date (YYYY-MM-DD) and optionally --dry-run)"
+    echo "exampledata\tAdd an example event (no inventory settings are changed as these are global)"
     echo "statistics\tPrint some numbers"
     echo ""
     echo "[Advanced]"
