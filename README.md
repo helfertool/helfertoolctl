@@ -38,11 +38,11 @@ reprepro includedeb unstable ~/helfertoolctl_X.Y.Z_amd64.deb
 reprepro includedsc unstable ~/helfertoolctl_X.Y.Z.dsc
 ```
 
-After testing, move to stretch and buster repository:
+After testing, move to buster and bullseye repository:
 
 ```
-reprepro copy stretch unstable helfertoolctl
 reprepro copy buster unstable helfertoolctl
+reprepro copy bullseye unstable helfertoolctl
 ```
 
 ## CentOS

@@ -1,3 +1,10 @@
+helfertoolctl (0.6.0) unstable; urgency=medium
+
+  * Updated config for Helfertool release 2.0
+  * Add "exampledata" command
+
+ -- Sven Hertle <hertle@narfi.net>  Sat, 14 Aug 2021 12:01:21 +0200
+
 helfertoolctl (0.5.0) unstable; urgency=medium
 
   * Updated config for Helfertool release 1.2
