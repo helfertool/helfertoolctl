@@ -1,3 +1,9 @@
+helfertoolctl (0.8.0) unstable; urgency=medium
+
+  * Updated config for Helfertool release 2.2
+
+ -- Sven Hertle <hertle@narfi.net>  Mon, 29 Nov 2021 21:40:05 +0100
+
 helfertoolctl (0.7.0) unstable; urgency=medium
 
   * Updated config for Helfertool release 2.1
