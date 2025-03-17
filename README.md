@@ -13,6 +13,13 @@ Some files are usually managed in the helfertool repository, but also part of th
 
 # Release new version
 
+## Set environment variables
+
+Set environment (in case it is not stored in config files, for example in devcontainer):
+
+    export DEBEMAIL="hertle@narfi.net"
+    export DEBFULLNAME="Sven Hertle"
+
 ## Bump version
 
 Bump version, run in `src`:
@@ -25,10 +32,11 @@ The version is also used for the CentOS package.
 
 ## Debian
 
-Build the Debian packages:
+Build and sign the Debian packages:
 
 ```
 ./scripts/build.sh debian
+debsign -k E2CB30B56CCCF2027CE115A1FA1023F9F6AC494F helfertoolctl_0.9.2.dsc
 ```
 
 Add packages to Debian repo with reprepro:
@@ -41,8 +49,8 @@ reprepro includedsc unstable ~/helfertoolctl_X.Y.Z.dsc
 After testing, move to buster and bullseye repository:
 
 ```
-reprepro copy buster unstable helfertoolctl
 reprepro copy bullseye unstable helfertoolctl
+reprepro copy bookworm unstable helfertoolctl
 ```
 
 ## CentOS
