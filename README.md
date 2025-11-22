@@ -36,7 +36,7 @@ Build and sign the Debian packages:
 
 ```
 ./scripts/build.sh debian
-debsign -k E2CB30B56CCCF2027CE115A1FA1023F9F6AC494F helfertoolctl_0.9.2.dsc
+debsign -k E2CB30B56CCCF2027CE115A1FA1023F9F6AC494F helfertoolctl_x.x.x.dsc
 ```
 
 Add packages to Debian repo with reprepro:
@@ -46,11 +46,11 @@ reprepro includedeb unstable ~/helfertoolctl_X.Y.Z_amd64.deb
 reprepro includedsc unstable ~/helfertoolctl_X.Y.Z.dsc
 ```
 
-After testing, move to buster and bullseye repository:
+After testing, move to stable and oldstable repository:
 
 ```
-reprepro copy bullseye unstable helfertoolctl
 reprepro copy bookworm unstable helfertoolctl
+reprepro copy trixie unstable helfertoolctl
 ```
 
 ## CentOS

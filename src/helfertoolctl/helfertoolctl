@@ -78,30 +78,16 @@ if [ "$1" = "start" ] ; then
         /usr/bin/docker rm "$HELFERTOOL_DOCKER_NAME" || true
     fi
 
-    # check if container was built with docker (old one) or podman (new one)
-    if [ -z "$(docker image inspect  "$HELFERTOOL_DOCKER_IMAGE" | grep '"DockerVersion": ""')" ] ; then
-        # old container (until version 2.2.x)
-        /usr/bin/docker run --rm --name "$HELFERTOOL_DOCKER_NAME" \
-            -p "$HELFERTOOL_ADDRESS:$HELFERTOOL_PORT:8000" \
-            -e USERID=$(id -u "$HELFERTOOL_USER") \
-            -e GROUPID=$(id -g "$HELFERTOOL_GROUP") \
-            -v "$HELFERTOOL_DATA_DIR:/data" \
-            -v "$HELFERTOOL_CONFIG_DIR:/config" \
-            -v "$HELFERTOOL_LOG_DIR:/log" \
-            "$HELFERTOOL_DOCKER_IMAGE"
-    else
-        # new container
-        /usr/bin/docker run --rm --name "$HELFERTOOL_DOCKER_NAME" \
-            -p "$HELFERTOOL_ADDRESS:$HELFERTOOL_PORT:8000" \
-            --user $(id -u "$HELFERTOOL_USER") \
-            --group-add $(id -g "$HELFERTOOL_GROUP") \
-            --read-only \
-            -v "$HELFERTOOL_DATA_DIR:/data" \
-            -v "$HELFERTOOL_CONFIG_DIR:/config" \
-            -v "$HELFERTOOL_LOG_DIR:/log" \
-            --tmpfs "/helfertool/run" \
-            "$HELFERTOOL_DOCKER_IMAGE"
-    fi
+    /usr/bin/docker run --rm --name "$HELFERTOOL_DOCKER_NAME" \
+        -p "$HELFERTOOL_ADDRESS:$HELFERTOOL_PORT:8000" \
+        --user $(id -u "$HELFERTOOL_USER") \
+        --group-add $(id -g "$HELFERTOOL_GROUP") \
+        --read-only \
+        -v "$HELFERTOOL_DATA_DIR:/data" \
+        -v "$HELFERTOOL_CONFIG_DIR:/config" \
+        -v "$HELFERTOOL_LOG_DIR:/log" \
+        --tmpfs "/helfertool/run" \
+        "$HELFERTOOL_DOCKER_IMAGE"
 
 # Command: stop
 elif [ "$1" = "stop" ] ; then
