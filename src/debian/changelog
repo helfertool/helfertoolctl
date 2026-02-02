@@ -1,3 +1,9 @@
+helfertoolctl (0.11.0) UNRELEASED; urgency=medium
+
+  * Updated config for Helfertool release 4.0.x
+
+ -- Sven Hertle <hertle@narfi.net>  Mon, 02 Feb 2026 21:37:49 +0000
+
 helfertoolctl (0.10.0) unstable; urgency=medium
 
   * Fix issue when starting the container with newer docker versions 
